@@ -21,7 +21,8 @@ signal permuted_data: std_logic_vector(0 to 63);
 
 begin
 
-permuted_data<= permuted_right_half & permuted_left_half;
+--permuted_data<= permuted_right_half & permuted_left_half;
+permuted_data<= permuted_left_half & permuted_right_half;
 
 data_out(0)<=permuted_data(39);
 data_out(1)<=permuted_data(7);
