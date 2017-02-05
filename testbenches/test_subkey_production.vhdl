@@ -20,7 +20,7 @@ architecture behavior of test_subkey_production is
 begin
 
 	uut: entity subkey_production
-		generic map(shifting_parameter=>"01") 
+		generic map(shifting_parameter=>"01",left_or_right=>"0") 
 		port map(left_key_in, right_key_in, subkey, left_key_out, right_key_out);
 		testprocess: process is
 		begin
