@@ -1,0 +1,31 @@
+library ieee;
+
+use ieee.std_logic_1164.all;
+
+use work.all;
+
+entity test_encryption is
+end test_encryption;
+
+
+architecture behavior of test_encryption is
+
+	signal data_in: std_logic_vector(0 to 63);
+	signal key: std_logic_vector(0 to 63);
+	signal data_out: std_logic_vector(0 to 63);
+
+begin
+
+	uut:entity encrypt port map(data_in,key,data_out);
+	testprocess: process is
+	begin
+--		data_in<="0000000000000000000000000000000000000000000000000000000000000000";
+--		key<="0011101100111000100110000011011100010101001000001111011101011110";
+--		key<="0000000000000000000000000000000000000000000000000000000000000000";
+--		data_in<="0101011011101001100111101010110011011110010111111111010010110001";
+--		key<="1101111000010000100111000101100011101000101001001010011000110000";
+		data_in<="0000000100100011010001010110011110001001101010111100110111101111";
+		key<="0001001100110100010101110111100110011011101111001101111111110001";
+		wait for 10 ns;
+	end process testprocess;
+end architecture behavior;
