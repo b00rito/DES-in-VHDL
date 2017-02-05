@@ -10,14 +10,17 @@ end test_swap_left_right_64_bits;
 
 architecture behavior of test_swap_left_right_64_bits is
 	
-	signal data_in: std_logic_vector(0 to 63);
-	signal data_out: std_logic_vector(0 to 63);
+	signal data_in_left: std_logic_vector(0 to 31);
+	signal data_in_right: std_logic_vector(0 to 31);
+	signal data_out_left: std_logic_vector(0 to 31);
+	signal data_out_right: std_logic_vector(0 to 31);
 
 begin
-	uut: entity swap_left_right_64_bits port map(data_in,data_out);
+	uut: entity swap_left_right_64_bits port map(data_in_left,data_in_right,data_out_left,data_out_right);
 	testprocess: process is
 	begin
-		data_in<="1111111111111111111111111111111100000000000000000000000000000000";
+		data_in_left<="11111111111111111111111111111111";
+		data_in_right<="00000000000000000000000000000000";
 		wait for 10 ns;
 	end process testprocess;
 end architecture behavior;
