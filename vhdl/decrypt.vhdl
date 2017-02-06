@@ -85,11 +85,11 @@ begin
 -- necessary shifts so as to get the subkeys backwards
 -- total LEFT shifts for each left and right key are 28 which is equal to one LEFT shift of the initial left/right key to get the key in its final state. 
 -- Then go on with right shifts so as to get sk16,sk15,...sk1 in that order for each round
-	lkls16: left_shift_by_16 port map(
+	lk_reverse: left_shift_by_1 port map(
 		data_in=>left_key,
 		data_out=>left_key_0);	
 
-	rkls16: left_shift_by_16 port map(
+	rk_reverse: left_shift_by_1 port map(
 		data_in=>right_key,
 		data_out=>right_key_0);
 	
