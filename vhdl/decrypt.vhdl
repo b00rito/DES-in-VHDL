@@ -32,7 +32,11 @@ architecture behavior of decrypt is
 		left_key_out: out std_logic_vector(0 to 27);
 		right_key_out: out std_logic_vector(0 to 27));
 	end component;
-
+	component left_shift_by_1
+	port(
+		data_in: in std_logic_vector(0 to 27);
+		data_out: out std_logic_vector(0 to 27));
+	end component;
 	component round
 	port(	left_plain: in std_logic_vector(0 to 31);
 		right_plain: in std_logic_vector(0 to 31);
@@ -60,8 +64,8 @@ architecture behavior of decrypt is
 	signal left_key: std_logic_vector(0 to 27);
 	signal right_key: std_logic_vector(0 to 27);
 	signal subkey1,subkey2,subkey3,subkey4,subkey5,subkey6,subkey7,subkey8,subkey9,subkey10,subkey11,subkey12,subkey13,subkey14,subkey15,subkey16: std_logic_vector(0 to 47);
-	signal left_key_1,left_key_2,left_key_3,left_key_4,left_key_5,left_key_6,left_key_7,left_key_8,left_key_9,left_key_10,left_key_11,left_key_12,left_key_13,left_key_14,left_key_15,left_key_16: std_logic_vector(0 to 27);
-	signal right_key_1,right_key_2,right_key_3,right_key_4,right_key_5,right_key_6,right_key_7,right_key_8,right_key_9,right_key_10,right_key_11,right_key_12,right_key_13,right_key_14,right_key_15,right_key_16: std_logic_vector(0 to 27);
+	signal left_key_0,left_key_1,left_key_2,left_key_3,left_key_4,left_key_5,left_key_6,left_key_7,left_key_8,left_key_9,left_key_10,left_key_11,left_key_12,left_key_13,left_key_14,left_key_15,left_key_16: std_logic_vector(0 to 27);
+	signal right_key_0,right_key_1,right_key_2,right_key_3,right_key_4,right_key_5,right_key_6,right_key_7,right_key_8,right_key_9,right_key_10,right_key_11,right_key_12,right_key_13,right_key_14,right_key_15,right_key_16: std_logic_vector(0 to 27);
 	signal left_plain_1,left_plain_2,left_plain_3,left_plain_4,left_plain_5,left_plain_6,left_plain_7,left_plain_8,left_plain_9,left_plain_10,left_plain_11,left_plain_12,left_plain_13,left_plain_14,left_plain_15,left_plain_16: std_logic_vector(0 to 31);
 	signal right_plain_1,right_plain_2,right_plain_3,right_plain_4,right_plain_5,right_plain_6,right_plain_7,right_plain_8,right_plain_9,right_plain_10,right_plain_11,right_plain_12,right_plain_13,right_plain_14,right_plain_15,right_plain_16: std_logic_vector(0 to 31);
 	signal swaped_plain_text_left,swaped_plain_text_right: std_logic_vector(0 to 31);
@@ -78,18 +82,23 @@ begin
 		permuted_left_key=>left_key,
 		permuted_right_key=>right_key);
 
+-- necessary shifts so as to get the subkeys backwards
+-- total LEFT shifts for each left and right key are 28 which is equal to one LEFT shift of the initial left/right key to get the key in its final state. 
+-- Then go on with right shifts so as to get sk16,sk15,...sk1 in that order for each round
+	lkls16: left_shift_by_16 port map(
+		data_in=>left_key,
+		data_out=>left_key_0);	
 
-
-
-
-
-
+	rkls16: left_shift_by_16 port map(
+		data_in=>right_key,
+		data_out=>right_key_0);
+	
 
 	s3: subkey_production generic map(
 		shifting_parameter=>"01",
 		left_or_right=>"1")
-		port map(	left_key_in=>left_key,
-				right_key_in=>right_key,
+		port map(	left_key_in=>left_key_0,
+				right_key_in=>right_key_0,
 				subkey=>subkey1,
 				left_key_out=>left_key_1,
 				right_key_out=>right_key_1);
@@ -103,10 +112,10 @@ begin
 
 
 
-
+	
 	
 	s5: subkey_production generic map(
-		shifting_parameter=>"10",
+		shifting_parameter=>"01",
 		left_or_right=>"1")
 		port map(	left_key_in=>left_key_1,
 				right_key_in=>right_key_1,
@@ -236,7 +245,7 @@ begin
 
 	
 	s17: subkey_production generic map(
-		shifting_parameter=>"01",
+		shifting_parameter=>"10",
 		left_or_right=>"1")
 		port map(	left_key_in=>left_key_7,
 				right_key_in=>right_key_7,
@@ -258,7 +267,7 @@ begin
 
 	
 	s19: subkey_production generic map(
-		shifting_parameter=>"10",
+		shifting_parameter=>"01",
 		left_or_right=>"1")
 		port map(	left_key_in=>left_key_8,
 				right_key_in=>right_key_8,
@@ -384,7 +393,7 @@ begin
 
 	
 	s31: subkey_production generic map(
-		shifting_parameter=>"01",
+		shifting_parameter=>"10",
 		left_or_right=>"1")
 		port map(	left_key_in=>left_key_14,
 				right_key_in=>right_key_14,
