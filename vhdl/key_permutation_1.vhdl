@@ -12,11 +12,8 @@ end key_permutation_1;
 
 architecture behavior of key_permutation_1 is
 
---signal reverse_key: std_logic_vector(63 downto 0);
 
 begin
-
---reverse_key(0 to 63)<=key(63 downto 0);
 
 permuted_left_key(0)<=key(56);
 permuted_left_key(1)<=key(48);
