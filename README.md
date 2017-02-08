@@ -14,7 +14,7 @@ Basic schematic of the algorithm:
 <br />
 <br />
 <br />
-Currently the vhdl code can encrypt binary data 
+Currently the vhdl code can encrypt and decrypt binary data given in the testbench as std_logic_vector(0 to 63)
 
 **To-Do's**
 
@@ -22,5 +22,4 @@ Currently the vhdl code can encrypt binary data
 - fix code intents and looking
 - check if it is possible to encrypt/decrypt real data -> take a param in vhdl
 - add comments
-- documentation
  ```
